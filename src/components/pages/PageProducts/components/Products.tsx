@@ -9,8 +9,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import {Product} from "models/Product";
 import {formatAsPrice} from "utils/utils";
 import AddProductToCart from "components/AddProductToCart/AddProductToCart";
-// import axios from 'axios';
-// import API_PATHS from "constants/apiPaths";
+import axios from 'axios';
+import API_PATHS from "constants/apiPaths";
 import productList from "./productList.json";
 
 const useStyles = makeStyles((theme) => ({
@@ -36,10 +36,8 @@ export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    // axios.get(`${API_PATHS.bff}/product/available/`)
-    //   .then(res => setProducts(res.data));
-    setProducts(productList);
-  }, [])
+    axios.get(`${API_PATHS.bff}/products`).then(res => setProducts(res.data));
+    }, [])
 
   return (
     <Grid container spacing={4}>
@@ -57,6 +55,9 @@ export default function Products() {
               </Typography>
               <Typography>
                 {formatAsPrice(product.price)}
+              </Typography>
+              <Typography>
+                {product.count}
               </Typography>
             </CardContent>
             <CardActions>
